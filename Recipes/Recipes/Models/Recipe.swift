@@ -5,7 +5,6 @@
 //  Created by Ahmad Ragab on 10/02/2025.
 //
 
-
 struct Recipe: Identifiable, Decodable {
     let id: Int
     let name: String
