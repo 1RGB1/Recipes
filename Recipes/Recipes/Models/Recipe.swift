@@ -5,7 +5,7 @@
 //  Created by Ahmad Ragab on 10/02/2025.
 //
 
-struct Recipe: Identifiable, Decodable {
+struct Recipe: Identifiable, Decodable, Equatable {
     let id: Int
     let name: String
     let ingredients: [String]
