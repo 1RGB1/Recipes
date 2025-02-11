@@ -89,4 +89,16 @@ final class RecipesViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.recipes[0].name, "Classic Margherita Pizza")
         XCTAssertFalse(viewModel.isLoading)
     }
+    
+    func test_Rest() {
+        // Given
+        // When
+        viewModel.reset()
+        
+        // Then
+        XCTAssertEqual(viewModel.recipes.count, 0)
+        XCTAssertTrue(viewModel.isLoading)
+        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertTrue(viewModel.canLoadMore)
+    }
 }

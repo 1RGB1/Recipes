@@ -47,4 +47,12 @@ class RecipesViewModel: ObservableObject {
         
         isLoading = false
     }
+    
+    func reset() {
+        recipes = []
+        isLoading = true
+        errorMessage = nil
+        skipItems = 0
+        canLoadMore = true
+    }
 }
