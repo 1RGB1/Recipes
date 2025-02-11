@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum BusinessError: Error {
+    case error(ErrorModel)
+}
+
 protocol NetworkManagerProtocol {
     func fetch<T: Decodable>(endpoint: Endpoint) async throws -> T
 }
