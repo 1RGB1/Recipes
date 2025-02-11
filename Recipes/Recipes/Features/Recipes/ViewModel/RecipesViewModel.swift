@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 class RecipesViewModel: ObservableObject {
     
     @Published var recipes: [Recipe] = []
@@ -35,7 +36,13 @@ class RecipesViewModel: ObservableObject {
                 canLoadMore = false
             }
         } catch {
-            errorMessage = error.localizedDescription
+            if let err = error as? BusinessError {
+                if case let .error(errorModel) = err {
+                    errorMessage = errorModel.message
+                }
+            } else {
+                errorMessage = error.localizedDescription
+            }
         }
         
         isLoading = false
