@@ -12,12 +12,19 @@ protocol NetworkManagerProtocol {
 }
 
 class NetworkManager: NetworkManagerProtocol {
+    
+    private let session: URLSession
+    
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+    
     func fetch<T: Decodable>(endpoint: Endpoint) async throws -> T {
         guard let url = endpoint.url else {
             throw URLError(.badURL)
         }
         
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await session.data(from: url)
         
         guard
             let response = response as? HTTPURLResponse,
@@ -27,18 +34,5 @@ class NetworkManager: NetworkManagerProtocol {
         }
         
         return try JSONDecoder().decode(T.self, from: data)
-    }
-}
-
-extension Data {
-    var prettyPrintedJSONString: NSString? {
-        guard let jsonObject = try? JSONSerialization.jsonObject(with: self, options: []),
-              let data = try? JSONSerialization.data(withJSONObject: jsonObject,
-                                                     options: [.prettyPrinted]),
-              let prettyJSON = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else {
-            return nil
-        }
-        
-        return prettyJSON
     }
 }
