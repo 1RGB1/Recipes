@@ -22,6 +22,8 @@ struct RecipesView: View {
                         }
                     } else if let errorMessage = viewModel.errorMessage {
                         VStack(alignment: .center) {
+                            Spacer()
+                            
                             Image(systemName: "x.circle")
                                 .resizable()
                                 .frame(width: 100, height: 100)
@@ -30,29 +32,34 @@ struct RecipesView: View {
                             Text("Error: \(errorMessage)")
                                 .font(.headline)
                                 .foregroundStyle(Color.red)
+                            
+                            Spacer()
                         }
                     } else {
                         ForEach(viewModel.recipes) { recipe in
-                            NavigationLink(destination: Text(recipe.name)) {
+                            NavigationLink(
+                                destination: RecipeDetailView(
+                                    viewModel: RecipeDetailViewModel(recipe: recipe)
+                                )
+                            ) {
                                 RecipeView(recipe: recipe)
                             }
                             .buttonStyle(PlainButtonStyle())
                             
-                            if recipe == viewModel.recipes.last {
-                                if viewModel.canLoadMore {
-                                    ProgressView()
-                                        .onAppear {
-                                            Task {
-                                                await viewModel.getRecipes()
-                                            }
+                            if recipe == viewModel.recipes.last && viewModel.canLoadMore {
+                                ProgressView()
+                                    .onAppear {
+                                        Task {
+                                            await viewModel.getRecipes()
                                         }
-                                }
+                                    }
                             }
                         }
                     }
                 }
                 .padding()
             }
+            .background(Color.orange.ignoresSafeArea(.all))
             .navigationTitle("Recipes")
             .task {
                 await viewModel.getRecipes()
