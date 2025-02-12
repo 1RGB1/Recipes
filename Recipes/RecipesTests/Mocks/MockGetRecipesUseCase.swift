@@ -12,11 +12,24 @@ enum MockError: Error {
 }
 
 class MockGetRecipesUseCase: GetRecipesUseCaseProtocol {
-    
+
     var isSuccess = true
     var isBusinessError = false
     
     func getRecipesByPageSize(_ pageSize: Int, skip: Int) async throws -> Recipes {
+        if isSuccess {
+            return try MockHandler.readJSONFileToModel("recipes")
+        } else {
+            if isBusinessError {
+                let errorModel: ErrorModel = try MockHandler.readJSONFileToModel("error")
+                throw BusinessError.error(errorModel)
+            } else {
+                throw MockError.unknown
+            }
+        }
+    }
+    
+    func getRecipesByName(_ name: String) async throws -> Recipes {
         if isSuccess {
             return try MockHandler.readJSONFileToModel("recipes")
         } else {

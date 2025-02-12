@@ -17,6 +17,7 @@ class RecipesViewModel: ObservableObject {
     private let pageSize = 10
     private var skipItems = 0
     var canLoadMore = true
+    var isSearching = false
     private let useCase: GetRecipesUseCaseProtocol
     
     init(useCase: GetRecipesUseCaseProtocol = GetRecipesUseCase()) {
@@ -35,6 +36,26 @@ class RecipesViewModel: ObservableObject {
             } else {
                 canLoadMore = false
             }
+        } catch {
+            if let err = error as? BusinessError {
+                if case let .error(errorModel) = err {
+                    errorMessage = errorModel.message
+                }
+            } else {
+                errorMessage = error.localizedDescription
+            }
+        }
+        
+        isLoading = false
+    }
+    
+    func getRecipesByName(_ name: String) async {
+        isSearching = true
+        
+        do {
+            let data = try await useCase.getRecipesByName(name)
+            reset()
+            recipes = data.recipes
         } catch {
             if let err = error as? BusinessError {
                 if case let .error(errorModel) = err {
