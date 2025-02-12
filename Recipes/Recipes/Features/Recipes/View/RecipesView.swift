@@ -10,6 +10,7 @@ import SwiftUI
 struct RecipesView: View {
     
     @StateObject private var viewModel = RecipesViewModel()
+    @State private var searchText = ""
     
     var body: some View {
         NavigationView {
@@ -36,7 +37,7 @@ struct RecipesView: View {
                             Spacer()
                         }
                     } else {
-                        ForEach(viewModel.recipes) { recipe in
+                        ForEach(viewModel.recipes, id: \.id) { recipe in
                             NavigationLink(
                                 destination: RecipeDetailView(
                                     viewModel: RecipeDetailViewModel(recipe: recipe)
@@ -46,7 +47,7 @@ struct RecipesView: View {
                             }
                             .buttonStyle(PlainButtonStyle())
                             
-                            if recipe == viewModel.recipes.last && viewModel.canLoadMore {
+                            if recipe == viewModel.recipes.last && viewModel.canLoadMore && !viewModel.isSearching {
                                 ProgressView()
                                     .onAppear {
                                         Task {
@@ -58,11 +59,27 @@ struct RecipesView: View {
                     }
                 }
                 .padding()
+                .searchable(text: $searchText, prompt: "Search recipe")
+                .onChange(of: searchText) { _, newValue in
+                    viewModel.isSearching = !newValue.isEmpty
+                    Task {
+                        try? await Task.sleep(for: .seconds(0.5))
+                        await viewModel.getRecipesByName(newValue)
+                    }
+                }
             }
             .background(Color.orange.ignoresSafeArea(.all))
             .navigationTitle("Recipes")
             .task {
                 await viewModel.getRecipes()
+            }
+            .refreshable {
+                viewModel.reset()
+                searchText = ""
+                Task {
+                    try? await Task.sleep(for: .seconds(1))
+                    await viewModel.getRecipes()
+                }
             }
         }
     }

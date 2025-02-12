@@ -28,12 +28,6 @@ final class RecipesViewModelTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_GetRecipes_Success() {
-        // Given
-        viewModel.isLoading = true
-        viewModel.canLoadMore = true
-    }
-    
     func test_GetRecipes_NoMoreLoading() async {
         // Given
         viewModel.isLoading = true
@@ -83,6 +77,60 @@ final class RecipesViewModelTests: XCTestCase {
         
         // When
         await viewModel.getRecipes()
+        
+        // Then
+        XCTAssertEqual(viewModel.recipes.count, 1)
+        XCTAssertEqual(viewModel.recipes[0].name, "Classic Margherita Pizza")
+        XCTAssertFalse(viewModel.isLoading)
+    }
+    
+    func test_Rest() {
+        // Given
+        // When
+        viewModel.reset()
+        
+        // Then
+        XCTAssertEqual(viewModel.recipes.count, 0)
+        XCTAssertTrue(viewModel.isLoading)
+        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertTrue(viewModel.canLoadMore)
+    }
+    
+    
+    
+    
+    
+    func test_GetRecipesByName_FailWithBusiness() async {
+        // Given
+        mockGetRecipesUseCase.isSuccess = false
+        mockGetRecipesUseCase.isBusinessError = true
+        
+        // When
+        await viewModel.getRecipesByName("Margherita")
+        
+        // Then
+        XCTAssertEqual(viewModel.errorMessage, "Hello_Peter")
+        XCTAssertFalse(viewModel.isLoading)
+    }
+    
+    func test_GetRecipesByName_Fail() async {
+        // Given
+        mockGetRecipesUseCase.isSuccess = false
+        
+        // When
+        await viewModel.getRecipesByName("Margherita")
+        
+        // Then
+        XCTAssertNotNil(viewModel.errorMessage)
+        XCTAssertFalse(viewModel.isLoading)
+    }
+    
+    func test_GetRecipesByName_Success() async {
+        // Given
+        mockGetRecipesUseCase.isSuccess = true
+        
+        // When
+        await viewModel.getRecipesByName("Margherita")
         
         // Then
         XCTAssertEqual(viewModel.recipes.count, 1)

@@ -9,6 +9,7 @@ import Foundation
 
 protocol GetRecipesUseCaseProtocol {
     func getRecipesByPageSize(_ pageSize: Int, skip: Int) async throws -> Recipes
+    func getRecipesByName(_ name: String) async throws -> Recipes
 }
 
 class GetRecipesUseCase: GetRecipesUseCaseProtocol {
@@ -25,6 +26,17 @@ class GetRecipesUseCase: GetRecipesUseCaseProtocol {
             queryItems: [
                 URLQueryItem(name: "limit", value: "\(pageSize)"),
                 URLQueryItem(name: "skip", value: "\(skip)"),
+            ]
+        )
+        let recipes: Recipes = try await networkManager.fetch(endpoint: endpoint)
+        return recipes
+    }
+    
+    func getRecipesByName(_ name: String) async throws -> Recipes {
+        let endpoint = Endpoint(
+            path: API.Endpoints.search,
+            queryItems: [
+                URLQueryItem(name: "q", value: "\(name)")
             ]
         )
         let recipes: Recipes = try await networkManager.fetch(endpoint: endpoint)
