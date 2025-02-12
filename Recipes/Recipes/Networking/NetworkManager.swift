@@ -44,7 +44,11 @@ class NetworkManager: NetworkManagerProtocol {
         do {
             let decodedData = try JSONDecoder().decode(T.self, from: data)
             Logging.log(message: "✅ Successfully decoded response")
-            Logging.log(message: "\(decodedData)")
+            
+            if let jsonString = String(data: data, encoding: .utf8) {
+                Logging.log(message: "\(jsonString)")
+            }
+            
             return decodedData
         } catch {
             Logging.log(message: "❌ Decoding error: \(error)")
