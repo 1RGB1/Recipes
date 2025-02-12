@@ -25,12 +25,15 @@ struct RecipeView: View {
                 Text(recipe.name)
                     .font(.headline)
                     .multilineTextAlignment(.center)
+                    .foregroundStyle(Color.black)
                 
                 Text(recipe.cuisine)
                     .font(.body)
+                    .foregroundStyle(Color.black)
                 
                 Text(recipe.difficulty)
                     .font(.footnote)
+                    .foregroundStyle(Color.black)
                 
                 RatingView(rating: recipe.rating)
                     .frame(height: 20)
