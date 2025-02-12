@@ -16,11 +16,20 @@
 - [SwiftUI] For building the user interface
 - [Async/Await] Modern concurency for network calling
 
-## Key Features
+## Adding requirements
 
-- Show recipes list
-- Show recipe details
-- Unit testing
+- SwiftUI as the UI framework.
+- MVVM architectural pattern.
+- Fetch and Display a List.
+- Item Detail View.
+- Async/await.
+- Unit Tests.
+
+## Adding bonus
+- Dependency Injection.
+- Pagination.
+- Search
+- Pull to refresh
 
 ## Author
 
