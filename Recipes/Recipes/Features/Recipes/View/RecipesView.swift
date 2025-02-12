@@ -19,6 +19,7 @@ struct RecipesView: View {
                         VStack {
                             ProgressView("Loading...")
                                 .frame(width: 200, height: 200, alignment: .center)
+                                .accessibilityIdentifier("loading")
                         }
                     } else if let errorMessage = viewModel.errorMessage {
                         VStack(alignment: .center) {
@@ -28,10 +29,12 @@ struct RecipesView: View {
                                 .resizable()
                                 .frame(width: 100, height: 100)
                                 .foregroundStyle(Color.red)
+                                .accessibilityIdentifier("errorImage")
                             
                             Text("Error: \(errorMessage)")
                                 .font(.headline)
                                 .foregroundStyle(Color.red)
+                                .accessibilityIdentifier("errorText")
                             
                             Spacer()
                         }
@@ -43,6 +46,7 @@ struct RecipesView: View {
                                 )
                             ) {
                                 RecipeView(recipe: recipe)
+                                    .accessibilityIdentifier("recipe\(recipe.name)")
                             }
                             .buttonStyle(PlainButtonStyle())
                             
@@ -53,6 +57,7 @@ struct RecipesView: View {
                                             await viewModel.getRecipes()
                                         }
                                     }
+                                    .accessibilityIdentifier("paginationLoading")
                             }
                         }
                     }

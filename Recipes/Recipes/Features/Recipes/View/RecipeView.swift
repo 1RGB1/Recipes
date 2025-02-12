@@ -20,20 +20,25 @@ struct RecipeView: View {
             } placeholder: {
                 ProgressView()
             }
+            .accessibilityIdentifier("recipeImage")
             
             VStack {
                 Text(recipe.name)
                     .font(.headline)
                     .multilineTextAlignment(.center)
+                    .accessibilityIdentifier("recipeName")
                 
                 Text(recipe.cuisine)
                     .font(.body)
+                    .accessibilityIdentifier("recipeCuisine")
                 
                 Text(recipe.difficulty)
                     .font(.footnote)
+                    .accessibilityIdentifier("recipeDifficulty")
                 
                 RatingView(rating: recipe.rating)
                     .frame(height: 20)
+                    .accessibilityIdentifier("recipeRating")
             }
         }
         .padding(8)

@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import Recipes
 
 final class RecipesUITestsLaunchTests: XCTestCase {
 

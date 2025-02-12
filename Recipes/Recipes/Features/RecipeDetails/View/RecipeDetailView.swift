@@ -21,6 +21,7 @@ struct RecipeDetailView: View {
                 } placeholder: {
                     ProgressView()
                 }
+                .accessibilityIdentifier("recipeDetailImage")
                 .padding(8)
                 .background(
                     RoundedRectangle(cornerRadius: 10, style: .circular)
@@ -33,6 +34,7 @@ struct RecipeDetailView: View {
                 Text(viewModel.recipe.name)
                     .font(.title)
                     .multilineTextAlignment(.center)
+                    .accessibilityIdentifier("recipeDetailName")
                 
                 HStack(spacing: 24) {
                     VStack(alignment: .leading) {
@@ -44,6 +46,7 @@ struct RecipeDetailView: View {
                                 .foregroundStyle(Color.blue)
                             
                             Text("\(viewModel.recipe.prepTimeMinutes) min")
+                                .accessibilityIdentifier("recipeDetailPreparation")
                                 .font(.caption2)
                         }
                     }
@@ -57,6 +60,7 @@ struct RecipeDetailView: View {
                                 .foregroundStyle(Color.blue)
                             
                             Text("\(viewModel.recipe.cookTimeMinutes) min")
+                                .accessibilityIdentifier("recipeDetailCooking")
                                 .font(.caption2)
                         }
                     }
@@ -70,6 +74,7 @@ struct RecipeDetailView: View {
                                 .foregroundStyle(Color.red)
                             
                             Text("\(viewModel.recipe.caloriesPerServing) Kcal")
+                                .accessibilityIdentifier("recipeDetailCalories")
                                 .font(.caption2)
                         }
                     }
@@ -78,6 +83,7 @@ struct RecipeDetailView: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Ingredients")
+                            .accessibilityIdentifier("recipeDetailIngredients")
                             .font(.title3)
                         
                         ForEach(viewModel.recipe.ingredients, id: \.self) {
@@ -92,6 +98,7 @@ struct RecipeDetailView: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Instructions")
+                            .accessibilityIdentifier("recipeDetailInstructions")
                             .font(.title3)
                         
                         ForEach(viewModel.recipe.instructions, id: \.self) {
