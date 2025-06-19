@@ -8,10 +8,15 @@
 import SwiftUI
 
 @main
-struct RecipesApp: App {
+struct RecipeApp: App {
+    let container = DIContainer.shared
+    let coreDataManager = CoreDataManager.shared
+    
     var body: some Scene {
         WindowGroup {
-            RecipesView()
+            container.makeRecipeListView()
+                .environment(\.managedObjectContext, coreDataManager.context)
+                .preferredColorScheme(.light)
         }
     }
 }

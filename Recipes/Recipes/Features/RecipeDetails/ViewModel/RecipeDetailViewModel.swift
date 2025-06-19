@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct RecipeDetailViewModel {
-    
-    var recipe: Recipe
+class RecipeDetailViewModel: ObservableObject {
+    let recipe: Recipe
     
     init(recipe: Recipe) {
         self.recipe = recipe

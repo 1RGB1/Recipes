@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D22E517C2E04814400BF4956 /* CachedModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D22E517A2E04814400BF4956 /* CachedModel.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		56796E222D5A8FDF00886ED5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,11 +31,36 @@
 		56796E112D5A8FDE00886ED5 /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56796E212D5A8FDF00886ED5 /* RecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56796E2B2D5A8FDF00886ED5 /* RecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D22E517B2E04814400BF4956 /* CachedModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CachedModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D22E51612E0477E500BF4956 /* Exceptions for "Recipes" folder in "Recipes" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Core/Extensions/String+Extensions.swift",
+			);
+			target = 56796E102D5A8FDE00886ED5 /* Recipes */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		D22E51622E0477E500BF4956 /* Exceptions for "Recipes" folder in "Copy Bundle Resources" phase from "Recipes" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 56796E0F2D5A8FDE00886ED5 /* Resources */;
+			membershipExceptions = (
+				"Core/Extensions/String+Extensions.swift",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		56796E132D5A8FDE00886ED5 /* Recipes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D22E51612E0477E500BF4956 /* Exceptions for "Recipes" folder in "Recipes" target */,
+				D22E51622E0477E500BF4956 /* Exceptions for "Recipes" folder in "Copy Bundle Resources" phase from "Recipes" target */,
+			);
 			path = Recipes;
 			sourceTree = "<group>";
 		};
@@ -75,6 +104,7 @@
 		56796E082D5A8FDE00886ED5 = {
 			isa = PBXGroup;
 			children = (
+				D22E517A2E04814400BF4956 /* CachedModel.xcdatamodeld */,
 				56796E132D5A8FDE00886ED5 /* Recipes */,
 				56796E242D5A8FDF00886ED5 /* RecipesTests */,
 				56796E2E2D5A8FDF00886ED5 /* RecipesUITests */,
@@ -236,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D22E517C2E04814400BF4956 /* CachedModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +607,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D22E517A2E04814400BF4956 /* CachedModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D22E517B2E04814400BF4956 /* CachedModel.xcdatamodel */,
+			);
+			currentVersion = D22E517B2E04814400BF4956 /* CachedModel.xcdatamodel */;
+			path = CachedModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 56796E092D5A8FDE00886ED5 /* Project object */;
 }

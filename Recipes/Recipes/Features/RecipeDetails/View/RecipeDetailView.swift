@@ -8,145 +8,101 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
-    
     let viewModel: RecipeDetailViewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
-                AsyncImage(url: URL(string: viewModel.recipe.image)) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                } placeholder: {
-                    ProgressView()
-                }
-                .padding(8)
-                .background(
-                    RoundedRectangle(cornerRadius: 10, style: .circular)
-                        .fill(.white)
-                        .shadow(color: .gray, radius: 2, x: -1, y: 2)
-                )
-                .padding(.top, 16)
-                .padding(.horizontal, 24)
+            VStack(alignment: .leading, spacing: 20) {
+                headerImage
                 
-                Text(viewModel.recipe.name)
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                
-                HStack(spacing: 24) {
-                    VStack(alignment: .leading) {
-                        Text("Preparation")
-                            .font(.caption2)
-                        
-                        HStack(spacing: 4) {
-                            Image(systemName: "clock")
-                                .foregroundStyle(Color.blue)
-                            
-                            Text("\(viewModel.recipe.prepTimeMinutes) min")
-                                .font(.caption2)
-                        }
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text("Coocking")
-                            .font(.caption2)
-                        
-                        HStack(spacing: 4) {
-                            Image(systemName: "clock")
-                                .foregroundStyle(Color.blue)
-                            
-                            Text("\(viewModel.recipe.cookTimeMinutes) min")
-                                .font(.caption2)
-                        }
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text("Calories")
-                            .font(.caption2)
-                        
-                        HStack(spacing: 4) {
-                            Image(systemName: "flame.fill")
-                                .foregroundStyle(Color.red)
-                            
-                            Text("\(viewModel.recipe.caloriesPerServing) Kcal")
-                                .font(.caption2)
-                        }
-                    }
+                VStack(alignment: .leading, spacing: 16) {
+                    titleSection
+                    statsSection
+                    ingredientsSection
+                    instructionsSection
                 }
-                
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Ingredients")
-                            .font(.title3)
-                        
-                        ForEach(viewModel.recipe.ingredients, id: \.self) {
-                            Text("👉🏻 \($0)")
-                                .font(.callout)
-                        }
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal)
-                
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Instructions")
-                            .font(.title3)
-                        
-                        ForEach(viewModel.recipe.instructions, id: \.self) {
-                            Text("👉🏻 \($0)")
-                                .font(.callout)
-                        }
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal)
+                .padding()
             }
         }
-        .background(Color.orange.ignoresSafeArea(.all))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Share") {
+                    // Share functionality
+                }
+            }
+        }
     }
-}
-
-#Preview {
-    RecipeDetailView(
-        viewModel: RecipeDetailViewModel(
-            recipe: Recipe(
-                id: 1,
-                name: "Classic Margherita Pizza",
-                ingredients: [
-                    "Pizza dough",
-                    "Tomato sauce",
-                    "Fresh mozzarella cheese",
-                    "Fresh basil leaves",
-                    "Olive oil",
-                    "Salt and pepper to taste"
-                ],
-                instructions: [
-                    "Preheat the oven to 475°F (245°C).",
-                    "Roll out the pizza dough and spread tomato sauce evenly.",
-                    "Top with slices of fresh mozzarella and fresh basil leaves.",
-                    "Drizzle with olive oil and season with salt and pepper.",
-                    "Bake in the preheated oven for 12-15 minutes or until the crust is golden brown.",
-                    "Slice and serve hot."
-                ],
-                prepTimeMinutes: 20,
-                cookTimeMinutes: 15,
-                servings: 4,
-                difficulty: "Easy",
-                cuisine: "Italian",
-                caloriesPerServing: 300,
-                tags: [
-                    "Pizza",
-                    "Italian"
-                ],
-                userId: 45,
-                image: "https://cdn.dummyjson.com/recipe-images/1.webp",
-                rating: 4.6,
-                reviewCount: 3,
-                mealType: [
-                    "Dinner"]
-            )
-        )
-    )
+    
+    private var headerImage: some View {
+        AsyncImageView(url: viewModel.recipe.image)
+            .frame(height: 250)
+            .clipped()
+    }
+    
+    private var titleSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(viewModel.recipe.name)
+                .font(.largeTitle)
+                .fontWeight(.bold)
+            
+            HStack {
+                RatingView(rating: viewModel.recipe.rating)
+                Spacer()
+                DifficultyBadge(difficulty: viewModel.recipe.difficultyLevel)
+            }
+        }
+    }
+    
+    private var statsSection: some View {
+        HStack(spacing: 30) {
+            StatView(icon: "clock", value: "\(viewModel.recipe.prepTimeMinutes)m", label: "Prep")
+            StatView(icon: "flame", value: "\(viewModel.recipe.caloriesPerServing)", label: "Cal")
+            StatView(icon: "person.2", value: "\(viewModel.recipe.servings)", label: "Serves")
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+    
+    private var ingredientsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Ingredients")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            ForEach(Array(viewModel.recipe.ingredients.enumerated()), id: \.offset) { index, ingredient in
+                HStack {
+                    Text("\(index + 1).")
+                        .fontWeight(.medium)
+                        .foregroundColor(.secondary)
+                    Text(ingredient)
+                    Spacer()
+                }
+                .padding(.vertical, 4)
+            }
+        }
+    }
+    
+    private var instructionsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Instructions")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            ForEach(Array(viewModel.recipe.instructions.enumerated()), id: \.offset) { index, instruction in
+                HStack(alignment: .top) {
+                    Text("\(index + 1).")
+                        .fontWeight(.medium)
+                        .foregroundColor(.secondary)
+                        .frame(width: 20, alignment: .leading)
+                    Text(instruction)
+                        .lineLimit(nil)
+                    Spacer()
+                }
+                .padding(.vertical, 8)
+            }
+        }
+    }
 }

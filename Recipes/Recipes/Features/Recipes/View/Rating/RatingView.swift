@@ -8,22 +8,29 @@
 import SwiftUI
 
 struct RatingView: View {
-    
-    var rating: Double
+    let rating: Double
     
     var body: some View {
-        VStack {
-            HStack {
-                let separation = rating.seperate()
-                ForEach(0..<separation.int, id: \.self) { _ in
-                    StarView(fillValue: 1)
-                }
-                StarView(fillValue: separation.decimal)
+        HStack(spacing: 2) {
+            ForEach(0..<5) { index in
+                Image(systemName: starType(for: index))
+                    .foregroundColor(.yellow)
+                    .font(.caption)
             }
+            Text(String(format: "%.1f", rating))
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
     }
-}
-
-#Preview {
-    RatingView(rating: 4.5)
+    
+    private func starType(for index: Int) -> String {
+        let fillLevel = rating - Double(index)
+        if fillLevel >= 1.0 {
+            return "star.fill"
+        } else if fillLevel >= 0.5 {
+            return "star.leadinghalf.filled"
+        } else {
+            return "star"
+        }
+    }
 }
